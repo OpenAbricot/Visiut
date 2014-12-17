@@ -1,4 +1,4 @@
-#include "Models/headers/Picture.h"
+#include "Picture.h"
 #include <string>
 using namespace std;
 
@@ -82,6 +82,6 @@ void Picture::FreePicture(void **_picture){
 		delete _picture[i];
 	delete _picture;
 
-	
-	
+
+
 }

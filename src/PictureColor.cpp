@@ -1,17 +1,22 @@
 #include <iostream>
-#include "Models/headers/PictureGray.h"
-#include "Models/headers/Traitement.h"
+#include "PictureColor.h"
+#include "Picture.h"
+#include "Traitement.h"
 using namespace std;
 
-PictureGray::PictureGray() : Picture(){
+PictureColor::PictureColor() : Picture(){
     m_picture = NULL;
+
+    cerr << "Default Constructor " << this << endl;
 }
 
-PictureGray::PictureGray(unsigned char **_picture, const std::string &_name, unsigned int _nbLines, unsigned int _nbColumns, int _deph, int _format, bool _color) : Picture(_name, _nbLines, _nbColumns, _deph, _format, _color){
-            m_picture = _picture;
+PictureColor::PictureColor(unsigned int **_picture, const std::string & _name, unsigned int _nbLines, unsigned int _nbColumns, int _deph, unsigned int _format, bool _color) : Picture(_name, _nbLines, _nbColumns, _deph, _format, _color){
+    cerr << "Argument Constructor " << this << endl;
+    m_picture = _picture;
 }
 
-PictureGray::PictureGray(const PictureGray &_picture) : Picture(){
+PictureColor::PictureColor(const PictureColor & _picture) : Picture(){
+    cerr << "Copy Constructor " << this << endl;
     m_name =_picture.m_name;
     m_nbLines =_picture.m_nbLines;
     m_nbColumns = _picture.m_nbColumns;
@@ -19,17 +24,21 @@ PictureGray::PictureGray(const PictureGray &_picture) : Picture(){
     m_format = _picture.m_format;
     m_color = _picture.m_color;
 
-    m_picture = new unsigned char *[m_nbLines];
+    m_picture = new unsigned int *[m_nbLines];
 
     for(unsigned int i=0 ; i<m_nbLines ; i++)
-        m_picture[i] = new unsigned char [m_nbColumns];
+        m_picture[i] = new unsigned int [m_nbColumns];
 
     for(unsigned int i=0 ; i<m_nbLines ; i++)
         for(unsigned int j=0 ; j<m_nbColumns ; j++)
             m_picture[i][j] = _picture.m_picture[i][j];
+
+
+
 }
 
-PictureGray::~PictureGray(){
+PictureColor::~PictureColor(){
+    cerr << "Destructor " << this << endl;
 
     if(m_picture != NULL){
         for(unsigned int i=0 ; i<m_nbLines ; i++)
@@ -37,9 +46,11 @@ PictureGray::~PictureGray(){
 
         delete m_picture;
     }
+
+
 }
 
-PictureGray PictureGray::operator =(const PictureGray & _picture){
+PictureColor & PictureColor::operator =(const PictureColor & _picture){
     if(m_name != _picture.m_name)
         m_name = _picture.m_name;
     if(m_nbLines != _picture.m_nbLines)
@@ -59,10 +70,10 @@ PictureGray PictureGray::operator =(const PictureGray & _picture){
 
         delete m_picture;
 
-        m_picture = new unsigned char *[m_nbLines];
+        m_picture = new unsigned int *[m_nbLines];
 
         for(unsigned int i=0 ; i<m_nbLines ; i++)
-            m_picture[i] = new unsigned char [m_nbColumns];
+            m_picture[i] = new unsigned int [m_nbColumns];
 
         for(unsigned int i=0 ; i<m_nbLines ; i++)
             for(unsigned int j=0 ; j<m_nbColumns ; j++)
@@ -75,11 +86,11 @@ PictureGray PictureGray::operator =(const PictureGray & _picture){
 
 }
 
-unsigned char ** PictureGray::GetPictureGray()const{
-    unsigned char ** copy = new unsigned char *[m_nbLines];
+unsigned int ** PictureColor::GetPictureColor()const{
+    unsigned int ** copy = new unsigned int *[m_nbLines];
 
     for(unsigned int i=0 ; i<m_nbLines ; i++)
-        copy[i] = new unsigned char [m_nbColumns];
+        copy[i] = new unsigned int [m_nbColumns];
 
     for(unsigned int i=0 ; i<m_nbLines ; i++)
         for(unsigned int j=0 ; j<m_nbColumns ; j++)
@@ -88,32 +99,32 @@ unsigned char ** PictureGray::GetPictureGray()const{
     return copy;
 }
 
-int PictureGray:: getPixel(unsigned int _x,unsigned int _y)const{
+unsigned int PictureColor:: getPixel(unsigned int _x,unsigned int _y)const{
         return m_picture[_x][_y];
 }
 
-void PictureGray::SetPictureGray(unsigned char ** _picture){
+void PictureColor::SetPictureColor(unsigned int **_picture){
    m_picture = _picture;
 }
 
-void PictureGray::SetPixel(unsigned int _x, unsigned int _y, int _value){
+void PictureColor::SetPixel(unsigned int _x, unsigned int _y, int _value){
     m_picture[_x][_y] = _value;
 }
 
-void PictureGray::Negative(){
-	unsigned char ** new_picture = Traitement<unsigned char>::Negative(m_picture, m_nbColumns, m_nbLines);
+void PictureColor::Negative(){
+	unsigned int ** new_picture = Traitement<unsigned int>::Negative(m_picture, m_nbColumns, m_nbLines);
+	FreePicture((void **)m_picture);
+    m_picture = new_picture;
+}
+
+void PictureColor::VerticalMirror(){
+	unsigned int ** new_picture = Traitement<unsigned int>::VerticalMirror(m_picture, m_nbColumns, m_nbLines);
 	FreePicture((void**)m_picture);
     m_picture = new_picture;
 }
 
-void PictureGray::VerticalMirror(){
-	unsigned char ** new_picture = Traitement<unsigned char>::VerticalMirror(m_picture, m_nbColumns, m_nbLines);
+void PictureColor::HorizontalMirror(){
+    unsigned int ** new_picture = Traitement<unsigned int>::HorizontalMirror(m_picture, m_nbColumns, m_nbLines);
 	FreePicture((void**)m_picture);
-    m_picture = new_picture;
-}
-
-void PictureGray::HorizontalMirror(){
-	unsigned char ** new_picture = Traitement<unsigned char>::HorizontalMirror(m_picture, m_nbColumns, m_nbLines);
-	FreePicture((void**)m_picture);
-    m_picture = new_picture;
+	m_picture = new_picture;
 }

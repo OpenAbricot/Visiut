@@ -1,7 +1,7 @@
-#include "Controllers/headers/Controller.h"
-#include "Models/headers/Picture.h"
-#include "Models/headers/PictureColor.h"
-#include "Models/headers/PictureGray.h"
+#include "Controller.h"
+#include "Picture.h"
+#include "PictureColor.h"
+#include "PictureGray.h"
 #include <QImage>
 #include <QString>
 #include <QFileInfo>
@@ -33,7 +33,7 @@ Controller::Controller(const PictureGray & _picture){
 
     ostringstream oss(ostringstream::out);
     oss << "P5\n" << nbColumns << ' ' << nbLines << "\n255\n";
-    
+
     // Saisie des pixels sur la QImage a partir du tableau 2D de Image
     for(int i=0 ; i < nbLines ; i++)
         for(int j=0 ; j < nbColumns ; j++)
@@ -88,7 +88,7 @@ QImage & Controller::GetPicture()const{
 }
 
 unsigned int Controller::GetNbLines()const{
-    return image->height();    
+    return image->height();
 }
 
 unsigned int Controller::GetNbColumns()const{
@@ -205,7 +205,7 @@ Controller & Controller::operator = (const Controller & C){
 		delete image;
     Controller *Co = new Controller(C);
     return (*Co);
-    
+
 }
 
 bool Controller::Save(const QString & _path){
@@ -257,4 +257,3 @@ void Controller::Next(){
         image = new QImage(m_backNext.GetCurrentStatePathName().data());
     }
 }
-

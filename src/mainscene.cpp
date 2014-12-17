@@ -5,13 +5,13 @@
 MainScene::MainScene(QObject *parent)
 {
     /*
-        On va gérer la couleur etc... apres via des
-        méthode de sélection de couleur, que mainwondow va appelé
+        On va gÃ©rer la couleur etc... apres via des
+        mÃ©thode de sÃ©lection de couleur, que mainwondow va appeler
     */
     isPressed =false;
     this->graphicsView = new QGraphicsView;
     this->image = NULL;
- 
+
     this->graphicsView->setScene(this);
 }
 
@@ -111,4 +111,3 @@ QGraphicsView* MainScene::getGraphicsView()const
 MainScene::~MainScene()
 {
 }
-

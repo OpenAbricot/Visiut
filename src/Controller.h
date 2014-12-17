@@ -1,16 +1,16 @@
 #ifndef __CONTROLLER_H__
 #define __CONTROLLER_H__
 /*
- *@author infs3d_prj03 (Benjamin Gounine)
+ *@author Prunus
  */
 
 #include <QImage>
 #include <QString>
 #include <QFileInfo>
 #include <string>
-#include "Models/headers/PictureColor.h"
-#include "Models/headers/PictureGray.h"
-#include "Models/headers/BackNext.h"
+#include "PictureColor.h"
+#include "PictureGray.h"
+#include "BackNext.h"
 
 
  //! Class Controleur.
@@ -35,16 +35,16 @@ class Controller{
 
          //! Default contructor
         Controller();
-        
+
         //! Constructor */
         /*! Construc a new Controleur object with a QImage object given in parameters*/
 		/**
 		 * @param QImage
 		 */
         Controller(const QString & _path);
-        
+
 		//! Constructor
-		/*! Construct a new Controleur Object with an Image<uchar> argument in order to built a grayscale image*/ 
+		/*! Construct a new Controleur Object with an Image<uchar> argument in order to built a grayscale image*/
         /**
                  *	@param _picture Allows to manipulate the 8-bits image(Grayscale Image)
 		 */
@@ -57,11 +57,11 @@ class Controller{
          */
         Controller(const PictureColor & _picture); //RGB32
 
-        //! Copy Constructor 
+        //! Copy Constructor
 		/*! Construc a new Controleur Object, this Controleur is the copy of Controleur object given in parameters */
         /**
-		 * @param Controleur A Controleur Object 
-		 */ 
+		 * @param Controleur A Controleur Object
+		 */
         Controller(const Controller & _controller);
 
         //! Destructor
@@ -69,11 +69,11 @@ class Controller{
         ~Controller();
 
                 //! GetQImage
-		/*! Return a QImage Object*/		
+		/*! Return a QImage Object*/
         QImage * GetQImage()const;
 
                 //! GetPicture
-		/*! Return an Image Object */		
+		/*! Return an Image Object */
         QImage & GetPicture()const;
 
 
@@ -90,7 +90,7 @@ class Controller{
         int GetDeph()const;
 
         //! Methode getFormat
-        /*! Return  an integer value of the QImage object wich is representing the value of  the format 
+        /*! Return  an integer value of the QImage object wich is representing the value of  the format
 			Check http://doc.qt.nokia.com/4.6/qimage.html#Format-enum in order to know the possible value.
 			Otherwise :  value = 3 : The image is stored using 8-bit indexes into a colormap.
                                      value = 4 : The image is stored using a 32-bit RGB format (0xffRRGGBB).*/

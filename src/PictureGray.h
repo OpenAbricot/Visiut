@@ -1,11 +1,11 @@
 #ifndef PICTUREGRAY_H
 #define PICTUREGRAY_H
 #include <string>
-#include "Models/headers/Picture.h"
+#include "Picture.h"
 
 /*
- * @author Benjamin Gounine
- * @date 10/03/2012
+ * @author Prunus
+ * 
  */
 
 class PictureGray : public Picture{

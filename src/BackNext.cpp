@@ -1,4 +1,4 @@
-#include "Models/headers/BackNext.h"
+#include "BackNext.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -21,7 +21,7 @@ BackNext::BackNext(){
     m_pathName = "";
 }
 
-//! Constructeur avec argument 
+//! Constructeur avec argument
 /*!
 	Ce constructeur permet de cr&eacute;er un repertoire temporaire pour la sauvegarde d'images temporaires.
 	\param _name est le nom de l'image ouverte.
@@ -49,8 +49,8 @@ BackNext::BackNext(const char * _name){
 QDir BackNext::ms_dir_cache = QDir(".visiut3/");
 
 //! M&eacute;thode AddState
-/*! 
-	Cette m&eacute;thode permet d'ajouter un &eacute;tat, c'est &agrave; dire qu'elle va incr&eacute;menter 
+/*!
+	Cette m&eacute;thode permet d'ajouter un &eacute;tat, c'est &agrave; dire qu'elle va incr&eacute;menter
 	un compteur qui contiendra le nombre d'images temporaires enregistr&eacute;s sur le disque.
 	\param _index est la nouvelle valeur du compteur. Par d&eacutefaut, _index vaut -1.
 */
@@ -134,4 +134,3 @@ string to_string(int _nb){
     ss << _nb;
     return ss.str();
 }
-

@@ -6,8 +6,8 @@
 #include <string>
 
 /*
- * @author INFS3D_Prj03 (Faglin Florian & Tissier Raphael & Benjamin Gounine)
- * @date 31/12/2011
+ * @author @author Prunus
+ * 
  */
 
 

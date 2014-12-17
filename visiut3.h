@@ -3,7 +3,7 @@
 
 #include <QtGui/QMainWindow>
 #include "ui_visiut3.h"
-#include "Controllers/headers/Controller.h"
+#include "src/Controller.h"
 #include "mainscene.h"
 #include <QImage>
 #include <QString>

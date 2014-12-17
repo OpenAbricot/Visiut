@@ -1,11 +1,11 @@
 #ifndef PICTURECOLOR_H
 #define PICTURECOLOR_H
 #include <string>
-#include "Models/headers/Picture.h"
+#include "Picture.h"
 
 /*
- * @author INFS3D_Prj03 (Faglin Florian & Tissier Raphael & Benjamin Gounine)
- * @date 10/03/2012
+ * @author Prunus
+ * 
  */
 
 class PictureColor : public Picture{

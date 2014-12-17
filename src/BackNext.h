@@ -5,6 +5,12 @@
 #include <vector>
 #include <QDir>
 
+/*
+ *
+ * @author Prunus
+ *
+ */
+
 class BackNext
 {
     private:

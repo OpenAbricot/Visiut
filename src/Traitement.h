@@ -1,7 +1,7 @@
 #ifndef __TRAITEMENT_H__
 #define __TRAITEMENT_H__
 /*
- * @author INFS3D_Prj03 (Benjamin Gounine && Florian Faglin)
+ * @author @author Prunus
  */
 
 //! Traitement
