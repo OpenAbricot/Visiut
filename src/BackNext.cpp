@@ -16,9 +16,9 @@ using namespace std;
 /*! Permet de cr&eacute;er un objet BackNext*/
 BackNext::BackNext(){
 	//On initialise tous les attributs par défaut
-    m_index = 0;
-    m_currentIndex = 0;
-    m_pathName = "";
+    index = 0;
+    currentIndex = 0;
+    pathName = "";
 }
 
 //! Constructeur avec argument
@@ -27,8 +27,8 @@ BackNext::BackNext(){
 	\param _name est le nom de l'image ouverte.
 */
 BackNext::BackNext(const char * _name){
-    m_index = 0;
-    m_currentIndex = 0;
+    index = 0;
+    currentIndex = 0;
 	//On récupère le nom du fichier et on la met dans un string
 	string name = string(_name);
 	//On récupère l'extension de l'image
@@ -36,17 +36,17 @@ BackNext::BackNext(const char * _name){
 	//On récupère le nom de l'image sans l'extension
     name = name.substr(0,name.rfind("."));
 	//Si le répertoire temporaire n'existe pas
-	if(!ms_dir_cache.exists()){
-		qDebug() << "Fichier existe ? : " << !ms_dir_cache.exists();
+	if(!dir_cache.exists()){
+		qDebug() << "Fichier existe ? : " << !dir_cache.exists();
 		//On crée le repertoire temporaire
-		qDebug() << ms_dir_cache.mkpath(ms_dir_cache.path());
-		qDebug() << ms_dir_cache.mkdir("tmp");
+		qDebug() << dir_cache.mkpath(dir_cache.path());
+		qDebug() << dir_cache.mkdir("tmp");
 	}
 	//On génere le chemin de l'image temporaire
-	m_pathName = ms_dir_cache.path().toStdString()+"/tmp/"+name+to_string(m_index)+extension;
+	pathName = dir_cache.path().toStdString()+"/tmp/"+name+to_string(index)+extension;
 }
 
-QDir BackNext::ms_dir_cache = QDir(".visiut3/");
+QDir BackNext::dir_cache = QDir(".visiut3/");
 
 //! M&eacute;thode AddState
 /*!
@@ -54,27 +54,27 @@ QDir BackNext::ms_dir_cache = QDir(".visiut3/");
 	un compteur qui contiendra le nombre d'images temporaires enregistr&eacute;s sur le disque.
 	\param _index est la nouvelle valeur du compteur. Par d&eacutefaut, _index vaut -1.
 */
-void BackNext::AddState(int _index){
+void BackNext::addState(int _index){
     if(_index == -1)
-		m_index++;
+		index++;
 	else
-		m_index = _index;
-	m_currentIndex = m_index;
-    string extension = m_pathName.substr(m_pathName.rfind("."), m_pathName.size()-1);
-    m_pathName = m_pathName.substr(0,m_pathName.rfind("."));
-	if(m_index <= 9)
-		m_pathName = m_pathName.substr(0,m_pathName.size()-1)+to_string(m_index)+extension;
+		index = _index;
+	currentIndex = index;
+    string extension = pathName.substr(pathName.rfind("."), pathName.size()-1);
+    pathName = pathName.substr(0,pathName.rfind("."));
+	if(index <= 9)
+		pathName = pathName.substr(0,pathName.size()-1)+to_string(index)+extension;
 	else
-		m_pathName = m_pathName.substr(0, m_pathName.size()-2)+to_string(m_index)+extension;
+		pathName = pathName.substr(0, pathName.size()-2)+to_string(index)+extension;
 }
 
 //! M&eacute;thode RemoveLastState
 /*!
 	Cette m&eacute;thode d&eacute;cr&eacute;mente le nombre d'images enregistr&eacute;s sur le disque.
 */
-void BackNext::RemoveLastState(){
-	m_currentIndex--;
-    RemoveState(m_index-1);
+void BackNext::removeLastState(){
+	currentIndex--;
+    RemoveState(index-1);
 }
 
 //! M&eacute;thode RemoveState
@@ -83,49 +83,49 @@ void BackNext::RemoveLastState(){
 	\param _index est un entier qui correspond &agrave; l'image &agrave; supprimer.
 */
 //---------------------------On part du principe qu'on enlevera pas plus de 1000 traitements (À améliorer dans l'avenir)------------------------------------------------//
-void BackNext::RemoveState(int _index){
-    m_index = _index;
-    string extension = m_pathName.substr(m_pathName.rfind("."), m_pathName.size()-1);
-    m_pathName = m_pathName.substr(0,m_pathName.rfind("."));
-    if(m_index < 9)
-        m_pathName = m_pathName.substr(0, m_pathName.size()-1)+to_string(m_index)+extension;
-    else if(m_index >= 9 && m_index < 100)
-        m_pathName = m_pathName.substr(0, m_pathName.size()-2)+to_string(m_index)+extension;
-    cout << "Remove "+GetCurrentStatePathName() << endl;
+void BackNext::removeState(int _index){
+    index = _index;
+    string extension = pathName.substr(pathName.rfind("."), pathName.size()-1);
+    pathName = pathName.substr(0,pathName.rfind("."));
+    if(index < 9)
+        pathName = pathName.substr(0, pathName.size()-1)+to_string(index)+extension;
+    else if(index >= 9 && index < 100)
+        pathName = pathName.substr(0, pathName.size()-2)+to_string(index)+extension;
+    cout << "Remove "+getCurrentStatePathName() << endl;
 
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 //! M&eactue;thode RemoveTemporyFile
 /*! Supprime le dossier temporaire qui contient les images temporaires */
-void BackNext::RemoveTemporyFile(){
+void BackNext::removeTemporyFile(){
 
-	while(m_index > 0){
-		QFile::remove(GetCurrentStatePathName().data());
-		qDebug() << QString(GetCurrentStatePathName().data());
+	while(index > 0){
+		QFile::remove(getCurrentStatePathName().data());
+		qDebug() << QString(getCurrentStatePathName().data());
 		RemoveLastState();
 	}
 
-	if(ms_dir_cache.exists()){
-		ms_dir_cache.rmdir("tmp");
-		ms_dir_cache.rmpath(ms_dir_cache.path());
+	if(dir_cache.exists()){
+		dir_cache.rmdir("tmp");
+		dir_cache.rmpath(dir_cache.path());
 	}
 }
 
-//! M&eacute;thode GetCurrentStatePathName
+//! M&eacute;thode getCurrentStatePathName
 /*!
 	\return le chemin de l'image temporaire courante.
 */
-string & BackNext::GetCurrentStatePathName(){
-    return m_pathName;
+string & BackNext::getCurrentStatePathName(){
+    return pathName;
 }
 
-//! M&eacute;thode GetIndexCurrentStatePathName
+//! M&eacute;thode getIndexCurrentStatePathName
 /*!
 	\return l'index courant, l'id de l'image ouverte (courante)
 */
-int BackNext::GetIndexCurrentStatePathName()const{
-    return m_currentIndex;
+int BackNext::getIndexCurrentStatePathName()const{
+    return currentIndex;
 }
 
 

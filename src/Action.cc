@@ -1,4 +1,4 @@
-#include "Controller.h"
+#include "Action.h"
 #include "Picture.h"
 #include "PictureColor.h"
 #include "PictureGray.h"
@@ -11,25 +11,25 @@
 using namespace std;
 
 // Constructeur par défaut
-Controller::Controller(){
+Action::Action(){
     image = NULL;
-	m_image_info = new QFileInfo();
-    m_backNext = BackNext();
+	image_info = new QFileInfo();
+    backNext = BackNext();
 }
 
 // Constructeur avec QImage
-Controller::Controller(const QString & _path){
+Action::Action(const QString & _path){
     image = new QImage(_path);
-	m_image_info = new QFileInfo(_path);
+	image_info = new QFileInfo(_path);
     string name = _path.toStdString();
     name = name.substr(name.rfind("/")+1, name.size()-1);
-    m_backNext = BackNext(name.data());
+    backNext = BackNext(name.data());
 	cerr << "Construction " << this << endl;
 }
 
-Controller::Controller(const PictureGray & _picture){
-    int nbLines = _picture.GetNbLines();
-    int nbColumns = _picture.GetNbColumns();
+Action::Action(const PictureGray & _picture){
+    int nbLines = _picture.getNbLines();
+    int nbColumns = _picture.getNbColumns();
 
     ostringstream oss(ostringstream::out);
     oss << "P5\n" << nbColumns << ' ' << nbLines << "\n255\n";
@@ -47,9 +47,9 @@ Controller::Controller(const PictureGray & _picture){
 	cerr << "Construction " << this << endl;
 }
 
-Controller::Controller(const PictureColor & _picture){
-    unsigned int nbLines = _picture.GetNbLines();
-    unsigned int nbColumns = _picture.GetNbColumns();
+Action::Action(const PictureColor & _picture){
+    unsigned int nbLines = _picture.getNbLines();
+    unsigned int nbColumns = _picture.getNbColumns();
     //QImage::Format format = (QImage::Format) I.getFormat();
     // Construction d'une QImage
     image = new QImage(nbColumns, nbLines,QImage::Format_RGB32);
@@ -66,64 +66,66 @@ Controller::Controller(const PictureColor & _picture){
 }
 
 // Constructeur par copie
-Controller::Controller(const Controller & _controller){
+Action::Action(const Action & _Action){
     cerr << "Construction " << this << endl;
-    image = new QImage(_controller.GetPicture());
+    image = new QImage(_Action.getPicture());
 }
  //Destructeur
-Controller::~Controller(){
+Action::~Action(){
     if(image != NULL)
         delete image;
-	if(m_image_info != NULL)
-		delete m_image_info;
+	if(image_info != NULL)
+		delete image_info;
+
+    cerr << "Destruction" << this << endl;
 }
 
-// Getteurs
-QImage * Controller::GetQImage()const{
+// getteurs
+QImage * Action::getQImage()const{
     return image;
 }
 
-QImage & Controller::GetPicture()const{
+QImage & Action::getPicture()const{
     return (*image);
 }
 
-unsigned int Controller::GetNbLines()const{
+unsigned int Action::getNbLines()const{
     return image->height();
 }
 
-unsigned int Controller::GetNbColumns()const{
+unsigned int Action::getNbColumns()const{
     return image->width();
 }
 
-int Controller::GetDeph()const{
+int Action::getDeph()const{
     return image->depth();
 }
 
-unsigned int Controller::GetFormat()const{
+unsigned int Action::getFormat()const{
     return image->format();
 }
 
-QFileInfo * Controller::GetFileInfo()const{
-	return m_image_info;
+QFileInfo * Action::getFileInfo()const{
+	return image_info;
 }
 
-BackNext Controller::GetBackNext()const{
-	return m_backNext;
+BackNext Action::getBackNext()const{
+	return backNext;
 }
 
-bool Controller::GetColor()const{
+bool Action::getColor()const{
     //retourne vrai(1) si image couleur
     return !image->isGrayscale();
 }
 
 // retourne le pixel correspondant a la largeur et a la hauteur indique
-int Controller::GetPixel(unsigned int width, unsigned int height)const{
+int Action::getPixel(unsigned int width, unsigned int height)const{
     return image->pixel(height,width);
 }
 
 //Retourne un tableau 2D de type inconnu contenant les pixels de l'image (Et sinon Dieu a créer le polymorphisme je sais...)
-void ** Controller::GetData()const{
-    if(GetColor()){
+void ** Action::getData()const{
+    if(getColor()){
         unsigned int ** tab = new unsigned int *[image->height()];
 
         for(unsigned int i=0 ; i < (unsigned int)image->height() ; i++)
@@ -131,7 +133,7 @@ void ** Controller::GetData()const{
 
         for(unsigned int i=0 ; i < (unsigned int)image->height() ; i++){
             for(unsigned int j=0; j < (unsigned int)image->width(); j++)
-                tab[i][j] = GetPixel(i,j);
+                tab[i][j] = getPixel(i,j);
         }
 
         return ((void **)tab);
@@ -145,15 +147,15 @@ void ** Controller::GetData()const{
 
     for(unsigned int i=0 ; i < (unsigned int)image->height() ; i++){
         for(unsigned int j=0; j < (unsigned int)image->width(); j++)
-            tab[i][j] = GetPixel(i,j);
+            tab[i][j] = getPixel(i,j);
     }
 
     return ((void **)tab);
 }
 
-void Controller::SetPicture(const PictureColor & _picture){
-    unsigned int nbLines = _picture.GetNbLines();
-    unsigned int nbColumns = _picture.GetNbColumns();
+void Action::setPicture(const PictureColor & _picture){
+    unsigned int nbLines = _picture.getNbLines();
+    unsigned int nbColumns = _picture.getNbColumns();
     if(image != NULL)
         delete image;
     image = new QImage(nbColumns, nbLines,QImage::Format_RGB32);
@@ -168,9 +170,9 @@ void Controller::SetPicture(const PictureColor & _picture){
         }
 }
 
-void Controller::SetPicture(const PictureGray & _picture){
-    int nbLines = _picture.GetNbLines();
-    int nbColumns = _picture.GetNbColumns();
+void Action::setPicture(const PictureGray & _picture){
+    int nbLines = _picture.getNbLines();
+    int nbColumns = _picture.getNbColumns();
 
     ostringstream oss(ostringstream::out);
     oss << "P5\n" << nbColumns << ' ' << nbLines << "\n255\n";
@@ -187,73 +189,73 @@ void Controller::SetPicture(const PictureGray & _picture){
     image = new QImage (QImage::fromData((const uchar *)(oss.str().c_str()), oss.str().length()));
 }
 
-void Controller::SetFileInfo(QFileInfo * _fileInfo){
-	if(m_image_info != NULL)
-		delete m_image_info;
-	m_image_info = _fileInfo;
+void Action::setFileInfo(QFileInfo * _fileInfo){
+	if(image_info != NULL)
+		delete image_info;
+	image_info = _fileInfo;
 }
 
-void Controller::SetQImage(QImage * _image){
+void Action::setQImage(QImage * _image){
 	if(image != NULL)
 		delete image;
 	image = _image;
 }
 
 // Operateur =
-Controller & Controller::operator = (const Controller & C){
+Action & Action::operator = (const Action & C){
    	if(image != NULL)
 		delete image;
-    Controller *Co = new Controller(C);
+    Action *Co = new Action(C);
     return (*Co);
 
 }
 
-bool Controller::Save(const QString & _path){
+bool Action::save(const QString & _path){
 	int quality = -1;
 	//const char* format = "JPG";
         return image->save(_path, 0, quality);
 }
 
-void Controller::Treatment(int _treatment){
-    if(GetColor()){
-        PictureColor picture(((unsigned int **)GetData()), "", GetNbLines(), GetNbColumns(), GetDeph(), GetFormat(), GetColor());
+void Action::treatment(int _treatment){
+    if(getColor()){
+        PictureColor picture(((unsigned int **)getData()), "", getNbLines(), getNbColumns(), getDeph(), getFormat(), getColor());
         if(_treatment == 0)
-            picture.Negative();
+            picture.negative();
         else if(_treatment == 1)
-            picture.HorizontalMirror();
+            picture.horizontalMirror();
         else
-            picture.VerticalMirror();
+            picture.verticalMirror();
 
 
-        SetPicture(picture);
+        setPicture(picture);
     }
     else{
-        PictureGray picture(((unsigned char **)GetData()), "", GetNbLines(), GetNbColumns(), GetDeph(), GetFormat(), GetColor());
+        PictureGray picture(((unsigned char **)getData()), "", getNbLines(), getNbColumns(), getDeph(), getFormat(), getColor());
         if(_treatment == 0)
-            picture.Negative();
+            picture.negative();
         else if(_treatment == 1)
-            picture.HorizontalMirror();
+            picture.horizontalMirror();
         else
-            picture.VerticalMirror();
+            picture.verticalMirror();
 
-        SetPicture(picture);
+        setPicture(picture);
     }
-    m_backNext.AddState();
-    Save(QString(m_backNext.GetCurrentStatePathName().data()));
+    backNext.addState();
+    save(QString(backNext.getCurrentStatePathName().data()));
 }
 
-void Controller::Back(){
-    if(m_backNext.GetIndexCurrentStatePathName() > 0){
+void Action::back(){
+    if(backNext.getIndexCurrentStatePathName() > 0){
         delete image;
-        m_backNext.RemoveLastState();
-        image = new QImage(m_backNext.GetCurrentStatePathName().data());
+        backNext.removeLastState();
+        image = new QImage(backNext.getCurrentStatePathName().data());
     }
 }
 
-void Controller::Next(){
-	if(m_backNext.GetIndexCurrentStatePathName() > 0){
+void Action::next(){
+	if(backNext.getIndexCurrentStatePathName() > 0){
         delete image;
-		m_backNext.AddState(m_backNext.GetIndexCurrentStatePathName()+1);
-        image = new QImage(m_backNext.GetCurrentStatePathName().data());
+		backNext.addState(backNext.getIndexCurrentStatePathName()+1);
+        image = new QImage(backNext.getCurrentStatePathName().data());
     }
 }

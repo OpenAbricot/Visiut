@@ -1,4 +1,4 @@
-/*#include "Controller.h"
+#include "Action.h"
 #include "PictureColor.h"
 #include "BackNext.h"
 #include <iostream>
@@ -7,19 +7,22 @@
 using namespace std;
 
 int main(){
-	Controller C(QString("C:\\image.jpg"));
-    C.Treatment(0);
-    C.Treatment(1);
-    C.Treatment(2);
-	C.Back();
-	C.Next();
-	cout << C.Save("C:\\image2.jpg") << endl;
-    	
+	Action::verbrose = true;
+	Action A(QString("image.jpg"));
+
+
+/*  A.Treatment(0);
+    A.Treatment(1);
+    A.Treatment(2);
+	A.Back();
+	A.Next();
+	cout << A.save("image2.jpg") << endl;
+  */
 
     return 0;
 }
-*/
 
+/*
 #include "visiut3.h"
 #include <QtGui/QApplication>
 
@@ -29,4 +32,4 @@ int main(int argc, char *argv[])
 	Visiut3 w;
 	w.show();
 	return a.exec();
-}
+}*/

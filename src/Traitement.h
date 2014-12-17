@@ -15,11 +15,11 @@ class Traitement{
 
         //static T** redimentionnement(T**, unsigned int, unsigned int ,unsigned int ,unsigned int);
 
-        static T** Negative(T**, unsigned int, unsigned int);
+        static T** negative(T**, unsigned int, unsigned int);
 
-        static T** VerticalMirror(T**, unsigned int, unsigned int);
+        static T** verticalMirror(T**, unsigned int, unsigned int);
 
-        static T** HorizontalMirror(T**, unsigned int, unsigned int);
+        static T** horizontalMirror(T**, unsigned int, unsigned int);
 
         //static T** flou_moy(T**, unsigned int, unsigned int);
 
@@ -69,7 +69,7 @@ T** Traitement<T>::redimentionnement(T** tab_in, unsigned int width_in, unsigned
 }*/
 
 template <typename T>
-T** Traitement<T>::Negative(T** tab_in, unsigned int width_in, unsigned int height_in)
+T** Traitement<T>::negative(T** tab_in, unsigned int width_in, unsigned int height_in)
 {
     //Creation d'une copie du tableau mis en entree
     T** tab_out = new T*[height_in];
@@ -84,7 +84,7 @@ T** Traitement<T>::Negative(T** tab_in, unsigned int width_in, unsigned int heig
 }
 
 template <typename T>
-T** Traitement<T>::VerticalMirror(T** tab_in, unsigned int width_in, unsigned int height_in)
+T** Traitement<T>::verticalMirror(T** tab_in, unsigned int width_in, unsigned int height_in)
 {
     //Creation d'une copie du tableau mis en entree
     T** tab_out = new T*[height_in];
@@ -99,7 +99,7 @@ T** Traitement<T>::VerticalMirror(T** tab_in, unsigned int width_in, unsigned in
 }
 
  template <typename T>
- T** Traitement<T>::HorizontalMirror(T** tab_in, unsigned int width_in, unsigned int height_in)
+ T** Traitement<T>::horizontalMirror(T** tab_in, unsigned int width_in, unsigned int height_in)
  {
      //Creation d'une copie du tableau mis en entree
      T** tab_out = new T*[height_in];

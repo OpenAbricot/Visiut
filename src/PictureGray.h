@@ -5,12 +5,12 @@
 
 /*
  * @author Prunus
- * 
+ *
  */
 
 class PictureGray : public Picture{
     private:
-        unsigned char ** m_picture;
+        unsigned char ** picture;
 
     public:
         PictureGray();
@@ -18,13 +18,13 @@ class PictureGray : public Picture{
         PictureGray(const PictureGray & _picture);
         PictureGray operator =(const PictureGray & _picture);
         virtual ~PictureGray();
-        unsigned char ** GetPictureGray()const;
+        unsigned char ** getPictureGray()const;
         int getPixel(unsigned int _x,unsigned int _y) const;
-        void SetPictureGray(unsigned char ** _picture);
-        virtual void SetPixel(unsigned int _x, unsigned int _y, int _value);
-        virtual void Negative();
-        virtual void VerticalMirror();
-        virtual void HorizontalMirror();
+        void setPictureGray(unsigned char ** _picture);
+        virtual void setPixel(unsigned int _x, unsigned int _y, int _value);
+        virtual void negative();
+        virtual void verticalMirror();
+        virtual void horizontalMirror();
 
 };
 
