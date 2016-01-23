@@ -74,7 +74,7 @@ void BackNext::addState(int _index){
 */
 void BackNext::removeLastState(){
 	currentIndex--;
-    RemoveState(index-1);
+    removeState(index-1);
 }
 
 //! M&eacute;thode RemoveState
@@ -103,7 +103,7 @@ void BackNext::removeTemporyFile(){
 	while(index > 0){
 		QFile::remove(getCurrentStatePathName().data());
 		qDebug() << QString(getCurrentStatePathName().data());
-		RemoveLastState();
+        removeLastState();
 	}
 
 	if(dir_cache.exists()){

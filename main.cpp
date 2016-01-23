@@ -1,23 +1,23 @@
-#include "Action.h"
-#include "PictureColor.h"
-#include "BackNext.h"
+#include "src/Action.h"
+#include "src/PictureColor.h"
+#include "src/BackNext.h"
 #include <iostream>
 #include <QImage>
 
 using namespace std;
 
 int main(){
-	Action::verbrose = true;
-	Action A(QString("image.jpg"));
+    QString S("image.jpg");
+    Action A(S);
 
 
-/*  A.Treatment(0);
-    A.Treatment(1);
-    A.Treatment(2);
-	A.Back();
-	A.Next();
+    A.treatment(0);
+    A.treatment(1);
+    A.treatment(2);
+ //   A.back();
+ //   A.next();
 	cout << A.save("image2.jpg") << endl;
-  */
+
 
     return 0;
 }

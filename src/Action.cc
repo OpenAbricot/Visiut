@@ -213,7 +213,7 @@ Action & Action::operator = (const Action & C){
 bool Action::save(const QString & _path){
 	int quality = -1;
 	//const char* format = "JPG";
-        return image->save(_path, 0, quality);
+    return image->save(_path, 0, quality);
 }
 
 void Action::treatment(int _treatment){

@@ -24,10 +24,10 @@ class Action{
        QImage *image;
 	   QFileInfo * image_info;
        BackNext backNext;
-       static bool verbrose;
 
     public :
 
+       static bool verbose;
        enum Treatments{
            Negative,
            HorizontalMirror,
@@ -42,28 +42,28 @@ class Action{
 		/**
 		 * @param QImage
 		 */
-        Action(const QString & _path, bool _verbrose);
+        Action(const QString & _path);
 
 		//! Constructor
 		/*! Construct a new Controleur Object with an Image<uchar> argument in order to built a grayscale image*/
         /**
                  *	@param _picture Allows to manipulate the 8-bits image(Grayscale Image)
 		 */
-        Action(const PictureGray & _picture, bool _verbrose);//NG8
+        Action(const PictureGray & _picture);//NG8
 
 		//! Constructor
 		/*! Construct a new Controleur Object with an Image<uint> argument in order to built a color image*/
 		/**
                  *  @param _picture I Allows to manipulate the 32-bits image(color Image)
          */
-        Action(const PictureColor & _picture, bool _verbrose); //RGB32
+        Action(const PictureColor & _picture); //RGB32
 
         //! Copy Constructor
 		/*! Construc a new Controleur Object, this Controleur is the copy of Controleur object given in parameters */
         /**
 		 * @param Controleur A Controleur Object
 		 */
-        Action(const Action & _Action, bool _verbrose);
+        Action(const Action & _Action);
 
         //! Destructor
 		/*! It's  a destructor ...*/
